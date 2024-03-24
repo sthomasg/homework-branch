@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id "org.openapi.generator" version "7.2.0"
+}
+
+group = 'org.scottg.branch'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+compileJava.dependsOn "openApiGenerate"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation('org.ehcache:ehcache:3.10.0') {
+        capabilities {
+            requireCapability('org.ehcache:ehcache-jakarta')
+        }
+    }
+    implementation 'javax.cache:cache-api:1.1.1'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    implementation 'org.wso2.orbit.com.googlecode.json-simple:json-simple:1.1.1.wso2v2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+openApiValidate {
+    inputSpec.set("$rootDir/src/main/resources/openapi/openapi.json")
+}
+
+openApiGenerate {
+    inputSpec.set("$rootDir/src/main/resources/openapi/openapi.json")
+    verbose.set(true);
+    apiPackage.set("org.scottg.branch.github.api");
+    modelPackage.set("org.scottg.branch.github.model");
+    generatorName.set("spring");
+    configOptions.set([
+            interfaceOnly : "true",
+            openApiNullable :  "true",
+            skipDefaultInterface : "true",
+            serializableModel: "true",
+            useSpringBoot3  : "true"
+    ]);
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'build/generate-resources/main/src/main/java']
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}

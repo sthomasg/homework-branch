@@ -1,0 +1,77 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Git Users",
+    "summary": "Retrieve GitHub User and their Repos",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/users/{user_name}" : {
+      "get" : {
+        "description": "Retrieve a specific User by Identity (user_name)",
+        "operationId": "getUserByName",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_name",
+            "description": "Identifier for a specific User",
+            "required": true,
+            "schema": {
+              "$ref": "../schema/user.json#/properties/user_name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                    "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref" : "#/components/responses/401"
+          },
+          "429": {
+            "$ref" : "#/components/responses/429"
+          },
+          "500": {
+            "$ref" : "#/components/responses/500"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User" : {
+        "$ref" : "../schema/user.json"
+      }
+    },
+    "responses": {
+      "400" : {
+        "description": "Bad Request"
+      },
+      "401" : {
+        "description": "UnAuthorized"
+      },
+      "403" : {
+        "description": "Forbidden"
+      },
+      "404" : {
+        "description": "Not Found"
+      },
+      "429" : {
+        "description": "Too Many Requests"
+      },
+      "500" : {
+        "description" : "Internal Server Error"
+      }
+    }
+  }
+}
+

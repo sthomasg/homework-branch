@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "file://org.scottg.branch/schema/user.json",
+  "title": "User",
+  "description": "A User",
+  "type": "object",
+  "properties": {
+    "user_name" : {
+      "type" : "string",
+      "description" : "This is not in the orginal upstream.. but wanted show i know how.",
+      "minLength": 2,
+      "maxLength": 200,
+      "examples": [
+        "octocat"
+      ]
+    },
+    "display_name" : {
+      "type" : "string",
+      "maxLength": 200,
+      "examples": [
+        "monalisa octocat"
+      ]
+    },
+    "avatar" : {
+      "type" : "string",
+      "format": "uri",
+      "examples": [
+        "https://github.com/images/error/octocat_happy.gif"
+      ]
+    },
+    "geo_location" : {
+      "type" : "string"
+    },
+    "email": {
+      "type" : "string",
+      "format": "email"
+    },
+    "url" : {
+      "type" : "string",
+      "format": "uri",
+      "examples": [
+        "https://api.github.com/users/octocat"
+      ]
+    },
+    "created_at" : {
+      "type" : "string",
+      "format": "date-time",
+      "examples": [
+        "2008-01-14T04:33:35Z"
+      ]
+    },
+    "repos" : {
+      "type": "array",
+      "items": {
+        "$ref" : "repo.json"
+      }
+    }
+  }
+}
