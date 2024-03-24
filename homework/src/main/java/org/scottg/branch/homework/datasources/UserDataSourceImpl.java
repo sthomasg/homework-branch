@@ -47,7 +47,7 @@ public class UserDataSourceImpl implements UserDataSource {
 
             CompletableFuture<List<Repo>> reposFuture = CompletableFuture
                     .supplyAsync(() -> restTemplate.getForEntity(usersURL + userName + "/repos", String.class), taskExecutor)
-                    .thenApply(responseEntity -> reposFactory.buildUserReposFromResponse(responseEntity.getBody()));
+                    .thenApply(responseEntity -> reposFactory.buildUserReposFromJSON(responseEntity.getBody()));
             user = userFuture.join();
             user.setRepos(reposFuture.join());
         } catch (CompletionException completionException) {
